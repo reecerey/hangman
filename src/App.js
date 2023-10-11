@@ -1,25 +1,24 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      wordToGuess: 'hangman', // Set your word here
+      guessedLetters: [],
+      incorrectGuesses: 0,
+      maxIncorrectGuesses: 6, // You can change this to set a different maximum
+    };
+  }
+
+  render() {
+    return (
+      <div className="App">
+        {/* Add your WordToGuess, Alphabet, and HangmanDisplay components here */}
+      </div>
+    );
+  }
 }
 
 export default App;
