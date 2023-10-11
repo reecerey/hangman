@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
+import WordToGuess from './WordToGuess';
+import Alphabet from './Alphabet';
+import HangmanDisplay from './HangmanDisplay';
 
 class App extends Component {
   constructor() {
@@ -12,10 +15,30 @@ class App extends Component {
     };
   }
 
+  handleLetterClick = (letter) => {
+    const { wordToGuess, guessedLetters, incorrectGuesses, maxIncorrectGuesses } = this.state;
+
+    if (!guessedLetters.includes(letter)) {
+      guessedLetters.push(letter);
+      if (!wordToGuess.includes(letter)) {
+        this.setState({ guessedLetters, incorrectGuesses: incorrectGuesses + 1 });
+      } else {
+        this.setState({ guessedLetters });
+      }
+    }
+
+    // Check for win/lose conditions here
+  };
+
   render() {
+    const { wordToGuess, guessedLetters, incorrectGuesses } = this.state;
+
     return (
       <div className="App">
-        {/* Add your WordToGuess, Alphabet, and HangmanDisplay components here */}
+        <h1>Hangman</h1>
+        <WordToGuess wordToGuess={wordToGuess} guessedLetters={guessedLetters} />
+        <Alphabet onLetterClick={this.handleLetterClick} />
+        <HangmanDisplay incorrectGuesses={incorrectGuesses} />
       </div>
     );
   }
