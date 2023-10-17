@@ -1,0 +1,22 @@
+.hangman-display {
+    margin-top: 20px;
+  }
+  
+  .hangman {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .hangman-part {
+    background-color: #333;
+    width: 10px;
+    height: 120px;
+    display: inline-block;
+    margin: 0 5px;
+    border-radius: 5px;
+  }
+  
+  .hangman-part.show {
+    background-color: red;
+  }
+  

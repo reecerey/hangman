@@ -4,44 +4,80 @@ import WordToGuess from './WordToGuess';
 import Alphabet from './Alphabet';
 import HangmanDisplay from './HangmanDisplay';
 
+const words = ['hangman', 'programming', 'react', 'javascript', 'openai', 'developer', 'learning'];
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      wordToGuess: 'hangman', // Set your word here
+      wordToGuess: this.getRandomWord(),
       guessedLetters: [],
       incorrectGuesses: 0,
-      maxIncorrectGuesses: 6, // You can change this to set a different maximum
+      maxIncorrectGuesses: 6,
+      gameStatus: 'playing', // 'playing', 'won', or 'lost'
     };
+  }
+
+  getRandomWord() {
+    const randomIndex = Math.floor(Math.random() * words.length);
+    return words[randomIndex];
   }
 
   handleLetterClick = (letter) => {
     const { wordToGuess, guessedLetters, incorrectGuesses, maxIncorrectGuesses } = this.state;
 
-    if (!guessedLetters.includes(letter)) {
+    if (this.state.gameStatus === 'playing' && !guessedLetters.includes(letter)) {
       guessedLetters.push(letter);
       if (!wordToGuess.includes(letter)) {
-        this.setState({ guessedLetters, incorrectGuesses: incorrectGuesses + 1 });
+        this.setState({ guessedLetters, incorrectGuesses: incorrectGuesses + 1 }, () => {
+          if (incorrectGuesses + 1 >= maxIncorrectGuesses) {
+            this.setState({ gameStatus: 'lost' });
+          }
+        });
+      } else if (this.checkWordGuessed()) {
+        this.setState({ guessedLetters, gameStatus: 'won' });
       } else {
         this.setState({ guessedLetters });
       }
     }
+  };
 
-    // Check for win/lose conditions here
+  checkWordGuessed() {
+    const { wordToGuess, guessedLetters } = this.state;
+    return wordToGuess.split('').every((letter) => guessedLetters.includes(letter));
+  }
+
+  handlePlayAgainClick = () => {
+    this.setState({
+      wordToGuess: this.getRandomWord(),
+      guessedLetters: [],
+      incorrectGuesses: 0,
+      gameStatus: 'playing',
+    });
   };
 
   render() {
-    const { wordToGuess, guessedLetters, incorrectGuesses } = this.state;
+    const { wordToGuess, guessedLetters, incorrectGuesses, gameStatus } = this.state;
 
     return (
       <div className="App">
         <h1>Hangman</h1>
-        <WordToGuess wordToGuess={wordToGuess} guessedLetters={guessedLetters} />
-        <Alphabet onLetterClick={this.handleLetterClick} />
-        <HangmanDisplay incorrectGuesses={incorrectGuesses} />
+        {gameStatus === 'playing' ? (
+          <>
+            <WordToGuess wordToGuess={wordToGuess} guessedLetters={guessedLetters} />
+            <Alphabet onLetterClick={this.handleLetterClick} />
+            <HangmanDisplay incorrectGuesses={incorrectGuesses} />
+          </>
+        ) : (
+          <div className="game-result">
+            {gameStatus === 'won' ? 'You Won!' : 'You Lost'}
+            <button onClick={this.handlePlayAgainClick}>Play again</button>
+          </div>
+        )}
       </div>
     );
   }
 }
 
 export default App;
+

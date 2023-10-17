@@ -1,4 +1,5 @@
 import React from 'react';
+import './HangmanDisplay.css';
 
 const HangmanDisplay = ({ incorrectGuesses }) => {
   // You can use SVG or ASCII art for the hangman display
