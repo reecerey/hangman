@@ -65,7 +65,7 @@ class App extends Component {
         {gameStatus === 'playing' ? (
           <>
             <WordToGuess wordToGuess={wordToGuess} guessedLetters={guessedLetters} />
-            <Alphabet onLetterClick={this.handleLetterClick} />
+            <Alphabet onLetterClick={this.handleLetterClick} wordToGuess={wordToGuess} guessedLetters={guessedLetters} />
             <HangmanDisplay incorrectGuesses={incorrectGuesses} />
           </>
         ) : (
