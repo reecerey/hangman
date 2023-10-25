@@ -4,8 +4,8 @@ import './Alphabet.css';
 const Alphabet = ({ onLetterClick, wordToGuess, guessedLetters }) => {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
-  const getLetterColor = (letter) => {
-    if (guessedLetters && guessedLetters.includes(letter) && wordToGuess) {
+  const getButtonBackgroundColor = (letter) => {
+    if (guessedLetters.includes(letter)) {
       return wordToGuess.includes(letter) ? 'blue' : 'red';
     }
     return '';
@@ -17,10 +17,10 @@ const Alphabet = ({ onLetterClick, wordToGuess, guessedLetters }) => {
         <button
           key={letter}
           onClick={() => onLetterClick(letter)}
-          style={{ color: getLetterColor(letter) }}
-          disabled={guessedLetters && guessedLetters.includes(letter)}
+          style={{ backgroundColor: getButtonBackgroundColor(letter) }}
+          disabled={guessedLetters.includes(letter)}
         >
-          {letter}
+          {letter.toUpperCase()}
         </button>
       ))}
     </div>
@@ -28,3 +28,4 @@ const Alphabet = ({ onLetterClick, wordToGuess, guessedLetters }) => {
 };
 
 export default Alphabet;
+
